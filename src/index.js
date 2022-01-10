@@ -17,7 +17,8 @@ const ConnectedWidget = forwardRef((props, ref) => {
       path,
       protocol,
       protocolOptions,
-      onSocketEvent
+      onSocketEvent,
+      query
     ) {
       this.url = url;
       this.customData = customData;
@@ -27,6 +28,7 @@ const ConnectedWidget = forwardRef((props, ref) => {
       this.onSocketEvent = onSocketEvent;
       this.socket = null;
       this.onEvents = [];
+      this.query = query;
       this.marker = Math.random();
     }
 
@@ -60,7 +62,8 @@ const ConnectedWidget = forwardRef((props, ref) => {
         this.customData,
         this.path,
         this.protocol,
-        this.protocolOptions
+        this.protocolOptions,
+        this.query,
       );
       // We set a function on session_confirm here so as to avoid any race condition
       // this will be called first and will set those parameters for everyone to use.
@@ -91,7 +94,8 @@ const ConnectedWidget = forwardRef((props, ref) => {
       props.socketPath,
       props.protocol,
       props.protocolOptions,
-      props.onSocketEvent
+      props.onSocketEvent,
+      props.query,
     );
   }
 
@@ -170,6 +174,7 @@ ConnectedWidget.propTypes = {
   socketPath: PropTypes.string,
   protocolOptions: PropTypes.shape({}),
   customData: PropTypes.shape({}),
+  query: PropTypes.string,
   handleNewUserMessage: PropTypes.func,
   profileAvatar: PropTypes.string,
   inputTextFieldHint: PropTypes.string,
@@ -214,6 +219,7 @@ ConnectedWidget.propTypes = {
 ConnectedWidget.defaultProps = {
   title: 'Welcome',
   customData: {},
+  query: '',
   inputTextFieldHint: 'Type a message...',
   connectingText: 'Waiting for server...',
   fullScreenMode: false,

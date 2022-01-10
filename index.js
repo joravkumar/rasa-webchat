@@ -106,6 +106,7 @@ export const rasaWebchatProTypes = {
   socketPath: PropTypes.string,
   protocolOptions: PropTypes.shape({}),
   customData: PropTypes.shape({}),
+  query: PropTypes.string,
   handleNewUserMessage: PropTypes.func,
   profileAvatar: PropTypes.string,
   inputTextFieldHint: PropTypes.string,
@@ -169,6 +170,7 @@ RasaWebchatProWithRules.propTypes = {
 export const rasaWebchatProDefaultTypes = {
   title: 'Welcome',
   customData: {},
+  query: '',
   inputTextFieldHint: 'Type a message...',
   connectingText: 'Waiting for server...',
   fullScreenMode: false,
