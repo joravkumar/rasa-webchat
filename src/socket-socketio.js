@@ -1,6 +1,6 @@
 import io from 'socket.io-client';
 
-export default function (socketUrl, customData, path, query) {
+export default function (socketUrl, customData, path, _protocolOptions, query) {
   const options = path ? { path } : {};
   options.query = query;
   const socket = io(socketUrl, options);
