@@ -570,12 +570,21 @@ class Widget extends Component {
     }
   }
 
+  // Function for adding Slash before single digit number and hash
+  modifyUtterance(text) {
+    if (text.length > 1) return text;
+    if (text === '#') return '/' + text;
+    if (!isNaN(+text)) return '/' + text;
+    return text;
+  }
+
   handleMessageSubmit(event) {
     event.preventDefault();
     const userUttered = event.target.message.value;
     if (userUttered) {
-      this.props.dispatch(addUserMessage(userUttered));
-      this.props.dispatch(emitUserMessage(userUttered));
+      const modifiedUserUttered = this.modifyUtterance(userUttered);
+      this.props.dispatch(addUserMessage(modifiedUserUttered));
+      this.props.dispatch(emitUserMessage(modifiedUserUttered));
     }
     event.target.message.value = '';
   }

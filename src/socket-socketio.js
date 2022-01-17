@@ -2,7 +2,7 @@ import io from 'socket.io-client';
 
 export default function (socketUrl, customData, path, _protocolOptions, query) {
   const options = path ? { path } : {};
-  options.query = query;
+  if (query) options.query = query;
   const socket = io(socketUrl, options);
   socket.on('connect', () => {
     console.log(`connect:${socket.id}`);
