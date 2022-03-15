@@ -61,6 +61,22 @@
     display: none;
   }
 
+  .rw-refresh {
+    position: absolute;
+    right:5px;
+  }
+
+  .rw-refresh-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+
+  .rw-refresh-img {
+    width: 24px;
+    height: 24px;
+  }
+
   .#{$namespace}toggle-fullscreen-button {
     @include header-button-fs;
   }

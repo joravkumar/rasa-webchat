@@ -1,4 +1,4 @@
-import React, { forwardRef, useRef } from 'react';
+import React, { forwardRef, useRef, Component } from 'react';
 
 import PropTypes from 'prop-types';
 import { Provider } from 'react-redux';
@@ -11,15 +11,7 @@ import ThemeContext from '../src/components/Widget/ThemeContext';
 
 const ConnectedWidget = forwardRef((props, ref) => {
   class Socket {
-    constructor(
-      url,
-      customData,
-      path,
-      protocol,
-      protocolOptions,
-      onSocketEvent,
-      query
-    ) {
+    constructor(url, customData, path, protocol, protocolOptions, onSocketEvent, query) {
       this.url = url;
       this.customData = customData;
       this.path = path;
@@ -63,15 +55,16 @@ const ConnectedWidget = forwardRef((props, ref) => {
         this.path,
         this.protocol,
         this.protocolOptions,
-        this.query,
+        this.query
       );
       // We set a function on session_confirm here so as to avoid any race condition
       // this will be called first and will set those parameters for everyone to use.
       this.socket.on('session_confirm', (sessionObject) => {
         this.sessionConfirmed = true;
-        this.sessionId = (sessionObject && sessionObject.session_id)
-          ? sessionObject.session_id
-          : sessionObject;
+        this.sessionId =
+                    sessionObject && sessionObject.session_id
+                      ? sessionObject.session_id
+                      : sessionObject;
       });
       this.onEvents.forEach((event) => {
         this.socket.on(event.event, event.callback);
@@ -95,7 +88,7 @@ const ConnectedWidget = forwardRef((props, ref) => {
       props.protocol,
       props.protocolOptions,
       props.onSocketEvent,
-      props.query,
+      props.query
     );
   }
 
@@ -103,8 +96,7 @@ const ConnectedWidget = forwardRef((props, ref) => {
     instanceSocket.current = store.socket;
   }
 
-  const storage =
-    props.params.storage === 'session' ? sessionStorage : localStorage;
+  const storage = props.params.storage === 'session' ? sessionStorage : localStorage;
 
   if (!store || !store.current) {
     store.current = initStore(
@@ -120,12 +112,14 @@ const ConnectedWidget = forwardRef((props, ref) => {
   return (
     <Provider store={store.current}>
       <ThemeContext.Provider
-        value={{ mainColor: props.mainColor,
+        value={{
+          mainColor: props.mainColor,
           conversationBackgroundColor: props.conversationBackgroundColor,
           userTextColor: props.userTextColor,
           userBackgroundColor: props.userBackgroundColor,
           assistTextColor: props.assistTextColor,
-          assistBackgoundColor: props.assistBackgoundColor }}
+          assistBackgoundColor: props.assistBackgoundColor
+        }}
       >
         <Widget
           ref={ref}
@@ -159,6 +153,7 @@ const ConnectedWidget = forwardRef((props, ref) => {
           defaultHighlightCss={props.defaultHighlightCss}
           defaultHighlightAnimation={props.defaultHighlightAnimation}
           defaultHighlightClassname={props.defaultHighlightClassname}
+          unmountMe={props.unmountMe}
         />
       </ThemeContext.Provider>
     </Provider>
@@ -213,7 +208,8 @@ ConnectedWidget.propTypes = {
   userTextColor: PropTypes.string,
   userBackgroundColor: PropTypes.string,
   assistTextColor: PropTypes.string,
-  assistBackgoundColor: PropTypes.string
+  assistBackgoundColor: PropTypes.string,
+  unmountMe: PropTypes.func
 };
 
 ConnectedWidget.defaultProps = {
@@ -260,7 +256,27 @@ ConnectedWidget.defaultProps = {
   userTextColor: '',
   userBackgroundColor: '',
   assistTextColor: '',
-  assistBackgoundColor: ''
+  assistBackgoundColor: '',
+  unmountMe: () => {}
 };
 
-export default ConnectedWidget;
+class ParentWidget extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { renderChild: true };
+  }
+
+    handleChildUnmount = () => {
+      this.setState({ renderChild: false });
+      setTimeout(() => {
+        this.setState({ renderChild: true });
+      }, 0);
+    };
+    render() {
+      return this.state.renderChild ? (
+        <ConnectedWidget unmountMe={this.handleChildUnmount} {...this.props} />
+      ) : null;
+    }
+}
+
+export default ParentWidget;

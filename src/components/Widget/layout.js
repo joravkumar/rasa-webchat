@@ -42,6 +42,7 @@ const WidgetLayout = (props) => {
           customComponent={props.customComponent}
           showMessageDate={props.showMessageDate}
           inputTextFieldHint={props.inputTextFieldHint}
+          unmountMe={props.unmountMe}
         />
       )}
       {!props.embedded && (
@@ -85,6 +86,7 @@ WidgetLayout.propTypes = {
   badge: PropTypes.number,
   embedded: PropTypes.bool,
   inputTextFieldHint: PropTypes.string,
+  // eslint-disable-next-line react/forbid-prop-types
   params: PropTypes.object,
   connected: PropTypes.bool,
   connectingText: PropTypes.string,
@@ -93,7 +95,8 @@ WidgetLayout.propTypes = {
   customComponent: PropTypes.func,
   displayUnreadCount: PropTypes.bool,
   showMessageDate: PropTypes.oneOfType([PropTypes.bool, PropTypes.func]),
-  tooltipPayload: PropTypes.string
+  tooltipPayload: PropTypes.string,
+  unmountMe: PropTypes.func
 };
 
 export default connect(mapStateToProps)(WidgetLayout);

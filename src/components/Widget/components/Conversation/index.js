@@ -20,6 +20,7 @@ const Conversation = props =>
       connectingText={props.connectingText}
       closeImage={props.closeImage}
       profileAvatar={props.profileAvatar}
+      unmountMe={props.unmountMe}
     />
     <Messages
       profileAvatar={props.profileAvatar}
@@ -46,12 +47,14 @@ Conversation.propTypes = {
   showFullScreenButton: PropTypes.bool,
   disabledInput: PropTypes.bool,
   inputTextFieldHint: PropTypes.string,
+  // eslint-disable-next-line react/forbid-prop-types
   params: PropTypes.object,
   connected: PropTypes.bool,
   connectingText: PropTypes.string,
   closeImage: PropTypes.string,
   customComponent: PropTypes.func,
-  showMessageDate: PropTypes.oneOfType([PropTypes.bool, PropTypes.func])
+  showMessageDate: PropTypes.oneOfType([PropTypes.bool, PropTypes.func]),
+  unmountMe: PropTypes.func
 };
 
 export default Conversation;

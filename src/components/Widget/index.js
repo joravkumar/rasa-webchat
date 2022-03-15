@@ -49,12 +49,17 @@ class Widget extends Component {
     this.sendMessage = this.sendMessage.bind(this);
     this.getSessionId = this.getSessionId.bind(this);
     this.intervalId = null;
-    this.eventListenerCleaner = () => { };
+    this.eventListenerCleaner = () => {};
   }
 
-
   componentDidMount() {
-    const { connectOn, autoClearCache, storage, dispatch, defaultHighlightAnimation } = this.props;
+    const {
+      connectOn,
+      autoClearCache,
+      storage,
+      dispatch,
+      defaultHighlightAnimation
+    } = this.props;
 
     // add the default highlight css to the document
     const styleNode = document.createElement('style');
@@ -66,7 +71,6 @@ class Widget extends Component {
       this.initializeWidget();
       return;
     }
-
 
     const localSession = getLocalSession(storage, SESSION_NAME);
     const lastUpdate = localSession ? localSession.lastUpdate : 0;
@@ -194,10 +198,9 @@ class Widget extends Component {
   }
 
   propagateMetadata(metadata) {
+    const { dispatch } = this.props;
     const {
-      dispatch
-    } = this.props;
-    const { linkTarget,
+      linkTarget,
       userInput,
       pageChangeCallbacks,
       domHighlight,
@@ -225,7 +228,9 @@ class Widget extends Component {
       dispatch(closeChat());
     }
     if (pageEventCallbacks) {
-      this.eventListenerCleaner = this.addCustomsEventListeners(pageEventCallbacks.pageEvents);
+      this.eventListenerCleaner = this.addCustomsEventListeners(
+        pageEventCallbacks.pageEvents
+      );
     }
   }
 
@@ -264,7 +269,10 @@ class Widget extends Component {
 
     const cleaner = () => {
       eventsListeners.forEach((eventsListener) => {
-        eventsListener.elem.removeEventListener(eventsListener.event, eventsListener.sendPayload);
+        eventsListener.elem.removeEventListener(
+          eventsListener.event,
+          eventsListener.sendPayload
+        );
       });
     };
 
@@ -322,18 +330,27 @@ class Widget extends Component {
         // seems to override that scrolling
         setTimeout(() => {
           if (/Mobi/.test(navigator.userAgent)) {
-            elements[0].scrollIntoView({ block: 'center', inline: 'nearest', behavior: 'smooth' });
+            elements[0].scrollIntoView({
+              block: 'center',
+              inline: 'nearest',
+              behavior: 'smooth'
+            });
           } else {
             const rectangle = elements[0].getBoundingClientRect();
 
-            const ElemIsInViewPort = (
-              rectangle.top >= 0 &&
-                rectangle.left >= 0 &&
-                rectangle.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
-                rectangle.right <= (window.innerWidth || document.documentElement.clientWidth)
-            );
+            const ElemIsInViewPort =
+                            rectangle.top >= 0 &&
+                            rectangle.left >= 0 &&
+                            rectangle.bottom <=
+                                (window.innerHeight || document.documentElement.clientHeight) &&
+                            rectangle.right <=
+                                (window.innerWidth || document.documentElement.clientWidth);
             if (!ElemIsInViewPort) {
-              elements[0].scrollIntoView({ block: 'center', inline: 'nearest', behavior: 'smooth' });
+              elements[0].scrollIntoView({
+                block: 'center',
+                inline: 'nearest',
+                behavior: 'smooth'
+              });
             }
           }
         }, 50);
@@ -344,7 +361,7 @@ class Widget extends Component {
   checkVersionBeforePull() {
     const { storage } = this.props;
     const localSession = getLocalSession(storage, SESSION_NAME);
-    if (localSession && (localSession.version !== 'PACKAGE_VERSION_TO_BE_REPLACED')) {
+    if (localSession && localSession.version !== 'PACKAGE_VERSION_TO_BE_REPLACED') {
       storage.removeItem(SESSION_NAME);
     }
   }
@@ -381,9 +398,10 @@ class Widget extends Component {
 
       // When session_confirm is received from the server:
       socket.on('session_confirm', (sessionObject) => {
-        const remoteId = (sessionObject && sessionObject.session_id)
-          ? sessionObject.session_id
-          : sessionObject;
+        const remoteId =
+                    sessionObject && sessionObject.session_id
+                      ? sessionObject.session_id
+                      : sessionObject;
 
         // eslint-disable-next-line no-console
         console.log(`session_confirm:${socket.socket.id} session_id:${remoteId}`);
@@ -418,7 +436,8 @@ class Widget extends Component {
               dispatch(emitUserMessage(message));
             }
           }
-        } if (connectOn === 'mount' && tooltipPayload) {
+        }
+        if (connectOn === 'mount' && tooltipPayload) {
           this.tooltipTimeout = setTimeout(() => {
             this.trySendTooltipPayload();
           }, parseInt(tooltipDelay, 10));
@@ -468,7 +487,11 @@ class Widget extends Component {
 
       // eslint-disable-next-line no-console
       console.log('sending init payload', sessionId);
-      socket.emit('user_uttered', { message: initPayload, customData, session_id: sessionId });
+      socket.emit('user_uttered', {
+        message: initPayload,
+        customData,
+        session_id: sessionId
+      });
       dispatch(initialize());
     }
   }
@@ -489,7 +512,11 @@ class Widget extends Component {
 
       if (!sessionId) return;
 
-      socket.emit('user_uttered', { message: tooltipPayload, customData, session_id: sessionId });
+      socket.emit('user_uttered', {
+        message: tooltipPayload,
+        customData,
+        session_id: sessionId
+      });
 
       dispatch(triggerTooltipSent(tooltipPayload));
       dispatch(initialize());
@@ -497,11 +524,7 @@ class Widget extends Component {
   }
 
   toggleConversation() {
-    const {
-      isChatOpen,
-      dispatch,
-      disableTooltips
-    } = this.props;
+    const { isChatOpen, dispatch, disableTooltips } = this.props;
     if (isChatOpen && this.delayedMessage) {
       if (!disableTooltips) dispatch(showTooltip(true));
       clearTimeout(this.messageDelayTimeout);
@@ -539,9 +562,7 @@ class Widget extends Component {
     } else if (isButtons(messageClean)) {
       this.props.dispatch(addButtons(messageClean));
     } else if (isCarousel(messageClean)) {
-      this.props.dispatch(
-        addCarousel(messageClean)
-      );
+      this.props.dispatch(addCarousel(messageClean));
     } else if (isVideo(messageClean)) {
       const element = messageClean.attachment.payload;
       this.props.dispatch(
@@ -616,6 +637,7 @@ class Widget extends Component {
         displayUnreadCount={this.props.displayUnreadCount}
         showMessageDate={this.props.showMessageDate}
         tooltipPayload={this.props.tooltipPayload}
+        unmountMe={this.props.unmountMe}
       />
     );
   }
@@ -670,7 +692,8 @@ Widget.propTypes = {
   defaultHighlightAnimation: PropTypes.string,
   defaultHighlightCss: PropTypes.string,
   defaultHighlightClassname: PropTypes.string,
-  messages: ImmutablePropTypes.listOf(ImmutablePropTypes.map)
+  messages: ImmutablePropTypes.listOf(ImmutablePropTypes.map),
+  unmountMe: PropTypes.func
 };
 
 Widget.defaultProps = {
@@ -685,7 +708,8 @@ Widget.defaultProps = {
   oldUrl: '',
   disableTooltips: false,
   defaultHighlightClassname: '',
-  defaultHighlightCss: 'animation: 0.5s linear infinite alternate default-botfront-blinker-animation; outline-style: solid;',
+  defaultHighlightCss:
+        'animation: 0.5s linear infinite alternate default-botfront-blinker-animation; outline-style: solid;',
   // unfortunately it looks like outline-style is not an animatable property on Safari
   defaultHighlightAnimation: `@keyframes default-botfront-blinker-animation {
     0% {
@@ -700,7 +724,8 @@ Widget.defaultProps = {
     100% {
       outline-color: green;
     }
-  }`
+  }`,
+  unmountMe: () => {}
 };
 
 export default connect(mapStateToProps, null, null, { forwardRef: true })(Widget);
