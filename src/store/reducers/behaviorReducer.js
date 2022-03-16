@@ -13,7 +13,7 @@ export default function (
     connected: false,
     initialized: false,
     isChatVisible: true,
-    isChatOpen: false,
+    isChatOpen: true,
     disabledInput: true,
     docViewer,
     connectingText,

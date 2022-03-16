@@ -268,6 +268,7 @@ class ParentWidget extends Component {
 
     handleChildUnmount = () => {
       this.setState({ renderChild: false });
+      sessionStorage.clear();
       setTimeout(() => {
         this.setState({ renderChild: true });
       }, 0);
