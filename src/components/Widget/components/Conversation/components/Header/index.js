@@ -53,9 +53,6 @@ const Header = ({
               />
             </button>
           )}
-        </div>
-        <h4 className={`rw-title ${profileAvatar && 'rw-with-avatar'}`}>{title}</h4>
-        <div className={'rw-refresh'}>
           <button onClick={unmountMe} className="rw-refresh-btn">
             <img
               className={'rw-refresh-img'}
@@ -65,6 +62,7 @@ const Header = ({
             />
           </button>
         </div>
+        <h4 className={`rw-title ${profileAvatar && 'rw-with-avatar'}`}>{title}</h4>
         {subtitle && <span className={profileAvatar && 'rw-with-avatar'}>{subtitle}</span>}
       </div>
       {!connected && <span className="rw-loading">{connectingText}</span>}
