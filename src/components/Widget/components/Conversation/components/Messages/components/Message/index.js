@@ -13,13 +13,19 @@ class Message extends PureComponent {
     const { docViewer, linkTarget } = this.props;
     const sender = this.props.message.get('sender');
     const text = this.props.message.get('text');
-    const customCss = this.props.message.get('customCss') && this.props.message.get('customCss').toJS();
+    const customCss =
+            this.props.message.get('customCss') && this.props.message.get('customCss').toJS();
 
     if (customCss && customCss.style === 'class') {
       customCss.css = customCss.css.replace(/^\./, '');
     }
 
-    const { userTextColor, userBackgroundColor, assistTextColor, assistBackgoundColor } = this.context;
+    const {
+      userTextColor,
+      userBackgroundColor,
+      assistTextColor,
+      assistBackgoundColor
+    } = this.context;
     let style;
     if (sender === 'response' && customCss && customCss.style === 'class') {
       style = undefined;
@@ -30,23 +36,24 @@ class Message extends PureComponent {
     } else if (sender === 'client') {
       style = { color: userTextColor, backgroundColor: userBackgroundColor };
     }
-
     return (
       <div
-        className={sender === 'response' && customCss && customCss.style === 'class' ?
-          `rw-response ${customCss.css}` :
-          `rw-${sender}`}
+        className={
+          sender === 'response' && customCss && customCss.style === 'class'
+            ? `rw-response ${customCss.css}`
+            : `rw-${sender}`
+        }
         style={style}
       >
-        <div
-          className="rw-message-text"
-        >
+        <div className="rw-message-text">
           {sender === 'response' ? (
             <ReactMarkdown
               className={'rw-markdown'}
               source={text}
               linkTarget={(url) => {
-                if (!url.startsWith('mailto') && !url.startsWith('javascript')) return '_blank';
+                if (!url.startsWith('mailto') && !url.startsWith('javascript')) {
+                  return '_blank';
+                }
                 return undefined;
               }}
               transformLinkUri={null}
@@ -55,8 +62,21 @@ class Message extends PureComponent {
                   docViewer ? (
                     <DocViewer src={props.href}>{props.children}</DocViewer>
                   ) : (
-                    <a href={props.href} target={linkTarget || '_blank'} rel="noopener noreferrer" onMouseUp={e => e.stopPropagation()}>{props.children}</a>
-                  )
+                    <a
+                      href={props.href}
+                      target={linkTarget || '_blank'}
+                      rel="noopener noreferrer"
+                      onMouseUp={e => e.stopPropagation()}
+                    >
+                      {props.children}
+                    </a>
+                  ),
+                html: props => (
+                  <span
+                    // eslint-disable-next-line react/no-danger
+                    dangerouslySetInnerHTML={{ __html: props.value }}
+                  />
+                )
               }}
             />
           ) : (
@@ -67,7 +87,6 @@ class Message extends PureComponent {
     );
   }
 }
-
 
 Message.contextType = ThemeContext;
 Message.propTypes = {
