@@ -6,7 +6,8 @@ const ThemeContext = React.createContext({
   userTextColor: '',
   userBackgroundColor: '',
   assistTextColor: '',
-  assistBackgoundColor: ''
+  assistBackgoundColor: '',
+  userBackgroundLightColor: ''
 });
 
 export default ThemeContext;
