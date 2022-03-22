@@ -8,18 +8,12 @@ import Message from '../Message/index';
 import './styles.scss';
 import ThemeContext from '../../../../../../ThemeContext';
 
-
 class Buttons extends PureComponent {
   constructor(props) {
     super(props);
     this.handleClick = this.handleClick.bind(this);
 
-    const {
-      message,
-      getChosenReply,
-      inputState,
-      id
-    } = this.props;
+    const { message, getChosenReply, inputState, id } = this.props;
 
     const hint = message.get('hint');
     const chosenReply = getChosenReply(id);
@@ -29,10 +23,7 @@ class Buttons extends PureComponent {
   }
 
   handleClick(reply) {
-    const {
-      chooseReply,
-      id
-    } = this.props;
+    const { chooseReply, id } = this.props;
 
     const payload = reply.get('payload');
     const title = reply.get('title');
@@ -40,21 +31,22 @@ class Buttons extends PureComponent {
   }
 
   renderButtons(message, buttons, persit, chosenReply) {
-    const { isLast, linkTarget, separateButtons
-    } = this.props;
-    const { userTextColor, userBackgroundColor, userBackgroundLightColor } = this.context;
+    const { isLast, linkTarget, separateButtons } = this.props;
+    const { userTextColor, userBackgroundColor } = this.context;
+    const buttonStyle = {
+      color: userTextColor,
+      backgroundColor: userBackgroundColor,
+      borderColor: userBackgroundColor
+    };
     return (
       <div>
         <Message message={message} />
-        {separateButtons && (<div className="rw-separator" />) }
+        {separateButtons && <div className="rw-separator" />}
         {(isLast || persit) && (
           <div className="rw-replies">
             {buttons.map((reply, index) => {
-              const buttonStyle = {
-                color: userTextColor,
-                backgroundColor: chosenReply === null ? userBackgroundColor : chosenReply === reply.get('title') ? userBackgroundColor : userBackgroundLightColor,
-                borderColor: chosenReply === null ? userBackgroundColor : chosenReply === reply.get('title') ? userBackgroundColor : userBackgroundLightColor
-              };
+              const isDisabled =
+                                chosenReply === null ? false : chosenReply !== reply.get('title');
               if (reply.get('type') === 'web_url') {
                 return (
                   <a
@@ -62,7 +54,7 @@ class Buttons extends PureComponent {
                     href={reply.get('url')}
                     target={linkTarget || '_blank'}
                     rel="noopener noreferrer"
-                    className={'rw-reply'}
+                    className={isDisabled ? 'rw-reply disabled' : 'rw-reply'}
                     style={buttonStyle}
                     onMouseUp={e => e.stopPropagation()}
                   >
@@ -71,11 +63,14 @@ class Buttons extends PureComponent {
                 );
               }
               return (
-                // eslint-disable-next-line jsx-a11y/no-static-element-interactions
+              // eslint-disable-next-line jsx-a11y/no-static-element-interactions
                 <div
                   key={index}
-                  className={'rw-reply'}
-                  onClick={(e) => { e.stopPropagation(); this.handleClick(reply); }}
+                  className={isDisabled ? 'rw-reply disabled' : 'rw-reply'}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    if (!isDisabled) this.handleClick(reply);
+                  }}
                   style={buttonStyle}
                   onMouseUp={e => e.stopPropagation()}
                 >
@@ -89,13 +84,8 @@ class Buttons extends PureComponent {
     );
   }
 
-
   render() {
-    const {
-      message,
-      getChosenReply,
-      id
-    } = this.props;
+    const { message, getChosenReply, id } = this.props;
     const chosenReply = getChosenReply(id);
     if (message.get('quick_replies') !== undefined) {
       const buttons = message.get('quick_replies');

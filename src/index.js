@@ -117,7 +117,6 @@ const ConnectedWidget = forwardRef((props, ref) => {
           conversationBackgroundColor: props.conversationBackgroundColor,
           userTextColor: props.userTextColor,
           userBackgroundColor: props.userBackgroundColor,
-          userBackgroundLightColor: props.userBackgroundLightColor,
           assistTextColor: props.assistTextColor,
           assistBackgoundColor: props.assistBackgoundColor
         }}
@@ -208,7 +207,6 @@ ConnectedWidget.propTypes = {
   conversationBackgroundColor: PropTypes.string,
   userTextColor: PropTypes.string,
   userBackgroundColor: PropTypes.string,
-  userBackgroundLightColor: PropTypes.string,
   assistTextColor: PropTypes.string,
   assistBackgoundColor: PropTypes.string,
   unmountMe: PropTypes.func
@@ -257,7 +255,6 @@ ConnectedWidget.defaultProps = {
   conversationBackgroundColor: '',
   userTextColor: '',
   userBackgroundColor: '',
-  userBackgroundLightColor: '#6990eb',
   assistTextColor: '',
   assistBackgoundColor: '',
   unmountMe: () => {}
