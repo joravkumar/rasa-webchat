@@ -69,7 +69,7 @@ class Buttons extends PureComponent {
                   className={isDisabled ? 'rw-reply disabled' : 'rw-reply'}
                   onClick={(e) => {
                     e.stopPropagation();
-                    if (!isDisabled) this.handleClick(reply);
+                    if (chosenReply === null) this.handleClick(reply);
                   }}
                   style={buttonStyle}
                   onMouseUp={e => e.stopPropagation()}
