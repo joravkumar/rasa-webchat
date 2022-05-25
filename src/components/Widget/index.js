@@ -38,6 +38,7 @@ import { SESSION_NAME, NEXT_MESSAGE } from 'constants';
 import { isVideo, isImage, isButtons, isText, isCarousel } from './msgProcessor';
 import WidgetLayout from './layout';
 import { storeLocalSession, getLocalSession } from '../../store/reducers/helper';
+import { LANGUAGE_CHANGE_TEXT } from '../../constants';
 
 class Widget extends Component {
   constructor(props) {
@@ -382,7 +383,16 @@ class Widget extends Component {
 
       socket.on('bot_uttered', (botUttered) => {
         // botUttered.attachment.payload.elements = [botUttered.attachment.payload.elements];
-        // console.log(botUttered);
+        if (botUttered.text?.includes(LANGUAGE_CHANGE_TEXT)) {
+          const regExp = /\(([^)]+)\)/; // <- Regex for find the language code in brackets
+          const langRegex = regExp.exec(botUttered.text);
+
+          if (langRegex && langRegex.length > 0) {
+            const langCode = langRegex[1];
+            this.props.changeLanguage(langCode);
+            return;
+          }
+        }
         this.handleBotUtterance(botUttered);
       });
 
@@ -693,7 +703,8 @@ Widget.propTypes = {
   defaultHighlightCss: PropTypes.string,
   defaultHighlightClassname: PropTypes.string,
   messages: ImmutablePropTypes.listOf(ImmutablePropTypes.map),
-  unmountMe: PropTypes.func
+  unmountMe: PropTypes.func,
+  changeLanguage: PropTypes.func
 };
 
 Widget.defaultProps = {
@@ -725,7 +736,8 @@ Widget.defaultProps = {
       outline-color: green;
     }
   }`,
-  unmountMe: () => {}
+  unmountMe: () => {},
+  changeLanguage: () => {}
 };
 
 export default connect(mapStateToProps, null, null, { forwardRef: true })(Widget);

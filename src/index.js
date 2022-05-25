@@ -154,6 +154,7 @@ const ConnectedWidget = forwardRef((props, ref) => {
           defaultHighlightAnimation={props.defaultHighlightAnimation}
           defaultHighlightClassname={props.defaultHighlightClassname}
           unmountMe={props.unmountMe}
+          changeLanguage={props.changeLanguage}
         />
       </ThemeContext.Provider>
     </Provider>
@@ -209,7 +210,8 @@ ConnectedWidget.propTypes = {
   userBackgroundColor: PropTypes.string,
   assistTextColor: PropTypes.string,
   assistBackgoundColor: PropTypes.string,
-  unmountMe: PropTypes.func
+  unmountMe: PropTypes.func,
+  changeLanguage: PropTypes.func
 };
 
 ConnectedWidget.defaultProps = {
@@ -257,7 +259,8 @@ ConnectedWidget.defaultProps = {
   userBackgroundColor: '',
   assistTextColor: '',
   assistBackgoundColor: '',
-  unmountMe: () => {}
+  unmountMe: () => {},
+  changeLanguage: () => {}
 };
 
 class ParentWidget extends Component {
@@ -266,6 +269,7 @@ class ParentWidget extends Component {
     this.state = { renderChild: true };
   }
 
+    // Function of handling the refresh
     handleChildUnmount = () => {
       this.setState({ renderChild: false });
       sessionStorage.clear();

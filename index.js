@@ -159,7 +159,8 @@ export const rasaWebchatProTypes = {
       })
     })
   ),
-  triggerEventListenerUpdateRate: PropTypes.number
+  triggerEventListenerUpdateRate: PropTypes.number,
+  changeLanguage: PropTypes.func
 };
 
 RasaWebchatProWithRules.propTypes = {
