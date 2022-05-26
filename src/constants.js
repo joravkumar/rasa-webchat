@@ -104,4 +104,4 @@ export const PROP_TYPES = {
 
 };
 
-export const LANGUAGE_CHANGE_TEXT = 'Language Change';
+export const LANGUAGE_CHANGE_TEXT = 'Changing language';

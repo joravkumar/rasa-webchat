@@ -7,7 +7,7 @@
                 console.log(`Change language`, langCode);
             }
             const load = () => {
-                if (!WebChat) setTimeout(load, 100);
+                if (!window.WebChat) setTimeout(load, 500);
                 if (WebChat)
                     WebChat.default({
                         customData: { language: 'en' },
