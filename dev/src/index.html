@@ -1,14 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>Chat Boat</title>
+        <title>ChatBot</title>
+        <link rel="icon" href="./favicon.ico" />
+
         <script>
             function changeLanguage(langCode) {
                 console.log(`Change language`, langCode);
             }
             const load = () => {
-                if (!window.WebChat) setTimeout(load, 500);
-                if (WebChat)
+                if (!window.WebChat) setTimeout(load, 100);
+                if (WebChat) {
+                    sessionStorage.clear();
                     WebChat.default({
                         customData: { language: 'en' },
                         socketUrl: 'https://nlp.kochartech.com',
@@ -22,16 +25,17 @@
                         isChatOpen: true,
                         changeLanguage,
                     });
+                }
             };
             setTimeout(load, 200);
         </script>
-    </head>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    </head>
     <body style="background: #fff;">
         <!-- <body style="background-image: url(https://upload.wikimedia.org/wikipedia/commons/4/42/Main_menu_of_Wikipedia.png);"> -->
         <!-- <a href="#" onclick="WebChat.send('/chitchat.greet')">Send chitchat.greet without text</a>
         <br /> -->
-        <p>Chat Boat</p>
+        <p font>ChatBot Demo</p>
         <!-- <a href="#" onclick="WebChat.send('/chitchat.greet', 'salut')"
             >Send chitchat.greet with text</a
         > -->
@@ -40,7 +44,7 @@
         <span style="height: 400px; display: block;">test</span>
         <h1 class="test">test</h1> -->
         <!-- <button class="my-button" style="margin-left: 450px">MY BUTTON</button>webchat -->
-        <script src="index.js" type="text/javascript"></script>
+        <script src="./index.js" type="text/javascript"></script>
         <!-- <div style="width: 400px; height: 2000px; border: 3px solid lightsalmon;" id="webchat" /> -->
     </body>
 </html>
