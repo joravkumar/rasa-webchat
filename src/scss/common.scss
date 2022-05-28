@@ -1,6 +1,10 @@
 @import url('https://fonts.googleapis.com/css?family=Inter:400,500,700&display=swap');
+ 
+// @import url('https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap');
 
-$fontfamily: 'Inter', sans-serif;  
+
+$fontfamily: 'Ooredoo Heavy';  
+// $fontregular: 'Noto Sans';  
 
 @mixin message-bubble($color, $textColor, $borderRadius: 15px) {
   background-color: $color;

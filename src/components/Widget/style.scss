@@ -2,7 +2,41 @@
 @import "variables.scss";
 @import "animation.scss";
 @import "common.scss";
+@font-face {
+  font-family: 'Ooredoo Heavy';
+  font-style: normal;
+  font-weight: 400;
+  src: url('../../scss/fonts/ooredoo/Ooredoo-Heavy.ttf'); /* IE9 Compat Modes */
+  }
 
+
+  @font-face {
+    font-family:  'Noto Sans';
+    font-style: normal;
+    font-weight: 400;
+    src: url('NotoRegular.ttf'); /* IE9 Compat Modes */
+    }
+/* noto-sans-regular - latin */
+// @font-face {
+//   font-family: 'Noto Sans';
+//   font-style: normal;
+//   font-weight: 400;
+//   src: url('../../scss/fonts/NotoSans/NotoSans-Regular.woff2'); /* IE9 Compat Modes */
+//   // src: local(''),
+//   //      url('../../scss/fonts/NotoSans/NotoSans-Regular.woff2') format('woff2'); /* Super Modern Browsers */
+      
+// }
+
+// @font-face {
+//   font-family: 'Noto Sans';
+//   font-style: normal;
+//   font-weight: 400;
+//   font-display: swap;
+//   src: url(https://fonts.gstatic.com/s/notosans/v27/o-0IIpQlx3QUlC5A4PNr6DRASf6M7VBj.woff2) format('woff2');
+//   unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+// } 
+
+  
 .#{$namespace}widget-container,
 .#{$namespace}widget-embedded,
 .#{$namespace}full-screen,
@@ -52,6 +86,11 @@
   }
 }
 
+body:not(strong b h1 h2 h3 h4 h5 h6 label .card-header), p {
+  font-family: "Noto Sans";
+}	.card-header, b, h1, h2, h3, h4, h5, h6, label, strong {
+  font-family: "Ooredoo Heavy";
+}
 
 .#{$namespace}widget-container {
   bottom: 0;
